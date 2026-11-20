@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منيو المطعم</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Tahoma,Arial,sans-serif;
+ background:#fff8f0;color:#332820;
+ overflow-x:hidden
+}
+header{
+ background:linear-gradient(135deg,#842e25,#b94d37);
+ color:white;text-align:center;padding:30px 15px;
+ border-radius:0 0 25px 25px;
+ transition:all 0.5s ease;
+ animation: slideDown 0.7s ease-out;
+}
+header.fade-out {
+ opacity: 0;
+ transform: translateY(-20px);
+}
+header h1{margin:0 0 8px;font-size:30px}
+header p{margin:0}
+.container{max-width:750px;margin:auto;padding:16px; transition:all 0.5s ease;}
+.container.fade-out {
+ opacity: 0;
+ transform: translateX(-50px);
+}
+h2{
+ color:#8b3028;margin-top:28px;
+ animation: fadeIn 0.8s ease-out;
+}
+.menu{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px
+}
+.item{
+ background:white;border-radius:16px;padding:14px 10px;
+ text-align:center;box-shadow:0 3px 12px #0000000c;
+ border:1px solid #f1e3d7;
+ transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+ animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+}
+.item:hover {
+ transform: translateY(-6px);
+ box-shadow: 0 10px 20px rgba(139, 48, 40, 0.12);
+}
+.item:nth-child(1) { animation-delay: 0.05s; }
+.item:nth-child(2) { animation-delay: 0.12s; }
+.item:nth-child(3) { animation-delay: 0.19s; }
+.item:nth-child(4) { animation-delay: 0.26s; }
+.item:nth-child(5) { animation-delay: 0.33s; }
+.item:nth-child(6) { animation-delay: 0.40s; }
+
+.product-image{
+ height:110px;display:flex;align-items:center;
+ justify-content:center;font-size:40px;
+ background:#fff4e8;border-radius:12px;margin-bottom:12px;
+ overflow:hidden
+}
+.product-image img{
+ width:100%;height:100%;object-fit:cover;
+ transition: transform 0.4s ease;
+}
+.item:hover .product-image img {
+ transform: scale(1.07);
+}
+.item h3{font-size:16px;margin:8px 0}
+.price{color:#a33e2e;font-weight:bold;font-size:19px;margin:10px}
+button{
+ background:#8b3028;color:white;border:0;border-radius:10px;
+ padding:10px 13px;font-size:14px;cursor:pointer;
+ transition: transform 0.15s ease, background 0.2s ease;
+}
+button:hover{background:#a33e2e}
+button:active{transform:scale(.93)}
+.cart{
+ margin-top:28px;padding:18px;background:#f3e4d6;
+ border-radius:16px;
+ animation: fadeIn 0.9s ease-out;
+}
+.cart-row{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:8px;margin:12px 0;
+ animation: slideInRight 0.3s ease-out;
+}
+.cart-row span{font-size:14px; font-weight:bold;}
+.remove{background:#bd5947;padding:7px 10px}
+.remove:hover{background:#9e4232}
+.total{font-size:21px;font-weight:bold}
+.empty{color:#796c62}
+.checkout-btn{
+ width:100%;background:#8b3028;color:white;border:0;
+ border-radius:12px;padding:15px;font-size:18px;font-weight:bold;
+ cursor:pointer;margin-top:10px;box-shadow:0 4px 10px rgba(0,0,0,0.1)
+}
+
+#confirmation-screen {
+ display: none;
+ text-align: center;
+ padding: 40px 20px;
+ background: white;
+ border-radius: 20px;
+ box-shadow: 0 5px 2320px rgba(0,0,0,0.1);
+ margin: 50px auto;
+ max-width: 500px;
+ opacity: 0;
+ transform: scale(0.8);
+ transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+#confirmation-screen.show {
+ display: block;
+ opacity: 1;
+ transform: scale(1);
+}
+.order-number-box {
+ font-size: 48px;
+ font-weight: bold;
+ color: #8b3028;
+ background: #fff4e8;
+ display: inline-block;
+ padding: 15px 30px;
+ border-radius: 15px;
+ margin: 20px 0;
+ border: 2px dashed #b94d37;
+ animation: pulse 2s infinite;
+}
+
+@keyframes slideDown {
+ from { opacity: 0; transform: translateY(-30px); }
+ to { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+ from { opacity: 0; transform: translateY(20px) scale(0.95); }
+ to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeIn {
+ from { opacity: 0; }
+ to { opacity: 1; }
+}
+@keyframes slideInRight {
+ from { opacity: 0; transform: translateX(20px); }
+ to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse {
+ 0% { transform: scale(1); }
+ 50% { transform: scale(1.05); }
+ 100% { transform: scale(1); }
+}
+
+@media(min-width:600px){
+ .menu{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+ <h1>🍟 منيو المطعم</h1>
+ <p>اختار طلبك واستمتع بالطعم 😋</p>
+</header>
+
+<main class="container" id="main-content">
+
+<h2>🍟 البطاطس المقلية</h2>
+<div class="menu">
+
+ <div class="item">
+  <div class="product-image">🍟</div>
+  <h3>بطاطس صغيرة</h3>
+  <div class="price">5 ريال</div>
+  <button type="button" onclick="add('بطاطس صغيرة', 5, this)">أضف للسلة</button>
+ </div>
+
+ <div class="item">
+  <div class="product-image">🍟</div>
+  <h3>بطاطس كبيرة</h3>
+  <div class="price">10 ريال</div>
+  <button type="button" onclick="add('بطاطس كبيرة', 10, this)">أضف للسلة</button>
+ </div>
+
+</div>
+
+<h2>🥤 المشروبات</h2>
+<div class="menu">
+
+ <div class="item">
+  <div class="product-image">
+   <img src="https://i.imgur.com/0XZJdTt.png" alt="مياه معدنية">
+  </div>
+  <h3>مياه معدنية</h3>
+  <div class="price">2 ريال</div>
+  <button type="button" onclick="add('مياه معدنية', 2, this)">أضف للسلة</button>
+ </div>
+
+ <div class="item">
+  <div class="product-image">
+   <img src="https://i.imgur.com/U1qksp4.jpeg" alt="بيبسي">
+  </div>
+  <h3>بيبسي</h3>
+  <div class="price">2.5 ريال</div>
+  <button type="button" onclick="add('بيبسي', 2.5, this)">أضف للسلة</button>
+ </div>
+
+ <div class="item">
+  <div class="product-image">
+   <img src="https://i.imgur.com/yfixjme.jpeg" alt="سفن أب 7UP">
+  </div>
+  <h3>سفن أب 7UP</h3>
+  <div class="price">2.5 ريال</div>
+  <button type="button" onclick="add('سفن أب', 2.5, this)">أضف للسلة</button>
+ </div>
+
+ <div class="item">
+  <div class="product-image">
+   <img src="https://i.imgur.com/2AQR7zx.jpeg" alt="حمضيات">
+  </div>
+  <h3>حمضيات</h3>
+  <div class="price">2.5 ريال</div>
+  <button type="button" onclick="add('حمضيات', 2.5, this)">أضف للسلة</button>
+ </div>
+
+ <div class="item">
+  <div class="product-image">
+   <img src="https://i.imgur.com/V9C3Pyh.png" alt="كود رد Code Red">
+  </div>
+  <h3>كود رد Code Red</h3>
+  <div class="price">5 ريال</div>
+  <button type="button" onclick="add('كود رد', 5, this)">أضف للسلة</button>
+ </div>
+
+ <div class="item">
+  <div class="product-image">
+   <img src="https://i.imgur.com/wrHJL37.jpeg" alt="ريد بول Red Bull">
+  </div>
+  <h3>ريد بول Red Bull</h3>
+  <div class="price">10 ريال</div>
+  <button type="button" onclick="add('ريد بول', 10, this)">أضف للسلة</button>
+ </div>
+
+</div>
+
+<h2>🧊 الثلج</h2>
+<div class="menu">
+ <div class="item">
+  <div class="product-image">
+   <img src="https://i.imgur.com/35loznQ.png" alt="كاسة ثلج">
+  </div>
+  <h3>كاسة ثلج</h3>
+  <div class="price">5 ريال</div>
+  <button type="button" onclick="add('كاسة ثلج', 5, this)">أضف للسلة</button>
+ </div>
+</div>
+
+<section class="cart">
+ <h2 style="margin-top:0">🛒 سلة الطلبات</h2>
+ <div id="orders" class="empty">السلة فارغة، أضف طلبك من المنيو.</div>
+ <p class="total">الإجمالي: <span id="total">0</span> ريال</p>
+ <button type="button" class="checkout-btn" onclick="checkout()">إتمام الطلب</button>
+ <button type="button" style="background:#bd5947; margin-top:8px; width:100%; border-radius:12px; padding:10px;" onclick="clearCart()">إفراغ السلة</button>
+</section>
+
+</main>
+
+<div id="confirmation-screen">
+ <h2>🎉 شكراً لطلبك!</h2>
+ <p>تم استلام طلبك بنجاح وجاري تجهيزه.</p>
+ <div>رقم طلبك</div>
+ <div class="order-number-box" id="order-number">000</div>
+ <br><br>
+ <button type="button" onclick="resetMenu()">العودة للمنيو</button>
+</div>
+
+<script>
+let cart = [];
+
+function add(name, price, btn) {
+ const existingIndex = cart.findIndex(item => item.name === name);
+ if (existingIndex > -1) {
+  cart[existingIndex].quantity += 1;
+ } else {
+  cart.push({ name: name, price: price, quantity: 1 });
+ }
+ render();
+
+ if (btn) {
+  const originalText = btn.textContent;
+  btn.textContent = "تمت الإضافة ✓";
+  btn.style.background = "#2e7d32";
+  setTimeout(() => {
+   btn.textContent = originalText;
+   btn.style.background = "";
+  }, 400);
+ }
+}
+
+function removeItem(index) {
+ cart.splice(index, 1);
+ render();
+}
+
+function clearCart() {
+ cart = [];
+ render();
+}
+
+function checkout() {
+ if (cart.length === 0) {
+  alert("السلة فارغة!");
+  return;
+ }
+ 
+ const randomOrderNumber = Math.floor(Math.random() * 999) + 1;
+ document.getElementById('order-number').textContent = randomOrderNumber;
+ 
+ document.getElementById('header').classList.add('fade-out');
+ document.getElementById('main-content').classList.add('fade-out');
+ 
+ setTimeout(() => {
+  document.getElementById('main-content').style.display = 'none';
+  document.getElementById('header').style.display = 'none';
+  const confScreen = document.getElementById('confirmation-screen');
+  confScreen.style.display = 'block';
+  setTimeout(() => {
+   confScreen.classList.add('show');
+  }, 20);
+ }, 500);
+}
+
+function resetMenu() {
+ clearCart();
+ const confScreen = document.getElementById('confirmation-screen');
+ confScreen.classList.remove('show');
+ 
+ setTimeout(() => {
+  confScreen.style.display = 'none';
+  document.getElementById('header').style.display = 'block';
+  document.getElementById('main-content').style.display = 'block';
+  
+  setTimeout(() => {
+   document.getElementById('header').classList.remove('fade-out');
+   document.getElementById('main-content').classList.remove('fade-out');
+  }, 30);
+ }, 400);
+}
+
+function render(){
+ const orders = document.getElementById('orders');
+ const total = document.getElementById('total');
+
+ if(cart.length === 0){
+  orders.className = 'empty';
+  orders.textContent = 'السلة فارغة، أضف طلبك من المنيو.';
+ } else {
+  orders.className = '';
+  orders.innerHTML = cart.map((item, index) => `
+   <div class="cart-row">
+    <span>${item.name} (x${item.quantity}) — ${(item.price * item.quantity).toFixed(2).replace(/\.00$/, '')} ريال</span>
+    <button type="button" class="remove" onclick="removeItem(${index})">حذف</button>
+   </div>
+  `).join('');
+ }
+
+ const sum = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+ total.textContent = Number.isInteger(sum) ? sum : sum.toFixed(2);
+}
+</script>
+
+</body>
+</html>
